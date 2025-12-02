@@ -30,7 +30,7 @@ To view the portfolio locally:
     ```bash
     npx http-server .
     ```
-4.  Open `http://127.0.0.1:8080` in your browser.
+4.  Open http://127.0.0.1:8080 in your browser.
 
 Alternatively, you can simply open `index.html` directly in your browser.
 
