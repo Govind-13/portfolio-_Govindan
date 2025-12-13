@@ -33,7 +33,7 @@ const Header = () => {
     return (
         <header className="header" style={headerStyle}>
             <div className="container">
-                <a href="#" className="logo">Govindan.R<span className="dot">.</span></a>
+                <a href="#" className="logo">Govindan<span className="dot">.R</span></a>
                 <nav className="navbar">
                     <ul className={`nav-links ${mobileActive ? 'active' : ''}`}>
                         <li><a href="#about" onClick={closeMobileMenu}>About</a></li>
@@ -54,4 +54,5 @@ const Header = () => {
 };
 
 export default Header;
+
 
