@@ -7,7 +7,7 @@ const About = () => {
                 <div className="about-grid">
                     <div className="about-image">
                         <div className="img-wrapper">
-                            <img src="/assets/avatar.png" alt="Govindan Profile" />
+                            <img src="/assets/avatar.png" alt="Govindan.R Profile" />
                         </div>
                     </div>
                     <div className="about-text">
@@ -41,4 +41,5 @@ const About = () => {
 };
 
 export default About;
+
 
