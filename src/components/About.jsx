@@ -13,7 +13,7 @@ const About = () => {
                     <div className="about-text">
                         <h2 className="section-title">About Me</h2>
                         <p className="lead">Multidisciplinary Graphic Designer & AI-Driven Creative Developer</p>
-                        <p>With over 3.5+ years of experience (and 10+ years in creative development), I specialize in
+                        <p>With over 3.5+ years of experience, I specialize in
                             creating visuals that combine artistic precision with intelligent automation. My work helps
                             brands, educators, and engineers transform complex ideas into clear, compelling visuals.</p>
                         <p>I specialize in branding, digital illustrations, motion graphics, engineering visuals, and
@@ -41,3 +41,4 @@ const About = () => {
 };
 
 export default About;
+
