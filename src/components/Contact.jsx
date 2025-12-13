@@ -21,7 +21,7 @@ const Contact = () => {
                             </div>
                             <div className="detail">
                                 <FaLinkedin style={{ marginRight: '15px' }} />
-                                <a href="#">LinkedIn Profile</a>
+                                <a href="https://www.linkedin.com/in/govindan1993/">LinkedIn Profile</a>
                             </div>
                         </div>
                     </div>
@@ -44,3 +44,4 @@ const Contact = () => {
 };
 
 export default Contact;
+
