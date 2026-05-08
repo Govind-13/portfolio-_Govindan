@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import Header from './components/Header';
+import NavDrawer from './components/NavDrawer';
 import Hero from './components/Hero';
 import About from './components/About';
 import Skills from './components/Skills';
@@ -51,6 +52,7 @@ function App() {
     <>
       <ThreeBackground />
       <Cursor />
+      <NavDrawer />
       <Header />
       <main>
         <Hero />

@@ -775,6 +775,196 @@ footer p {
     height: 100% !important;
 }
 
+/* Navigation Drawer */
+.nav-drawer-btn {
+    display: none;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 101;
+    background: rgba(0, 242, 255, 0.1);
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.nav-drawer-btn:hover {
+    background: rgba(0, 242, 255, 0.2);
+    transform: scale(1.1);
+}
+
+.nav-drawer-btn svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* Show nav drawer button */
+@media (max-width: 1200px) {
+    .nav-drawer-btn {
+        display: flex;
+    }
+}
+
+/* Navigation Drawer */
+.nav-drawer {
+    position: fixed;
+    top: 0;
+    right: -400px;
+    width: 400px;
+    height: 100vh;
+    background: linear-gradient(180deg, rgba(18, 18, 18, 0.98), rgba(5, 5, 5, 0.99));
+    border-left: 1px solid rgba(0, 242, 255, 0.2);
+    z-index: 102;
+    transition: right 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    box-shadow: -10px 0 40px rgba(0, 0, 0, 0.8);
+}
+
+.nav-drawer.open {
+    right: 0;
+}
+
+.drawer-content {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    border-bottom: 1px solid rgba(0, 242, 255, 0.1);
+}
+
+.drawer-header h2 {
+    font-size: 1.5rem;
+    color: #fff;
+    margin: 0;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.close-btn:hover {
+    background: rgba(0, 242, 255, 0.1);
+}
+
+.close-btn svg {
+    width: 24px;
+    height: 24px;
+}
+
+.drawer-links {
+    list-style: none;
+    padding: 20px;
+    flex: 1;
+}
+
+.drawer-links li {
+    margin: 0;
+    padding: 0;
+}
+
+.drawer-links a {
+    display: block;
+    padding: 15px 20px;
+    color: var(--text-color);
+    font-size: 1.1rem;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.drawer-links a:hover {
+    background: rgba(0, 242, 255, 0.1);
+    color: var(--primary-color);
+    transform: translateX(5px);
+}
+
+.drawer-links a.btn-primary {
+    background: var(--gradient-main);
+    color: #fff;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.drawer-links a.btn-primary:hover {
+    box-shadow: 0 4px 15px rgba(0, 114, 255, 0.5);
+}
+
+/* Scrim (Overlay) */
+.nav-scrim {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 101;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Prevent body scroll when drawer is open */
+body.nav-drawer-open {
+    overflow: hidden;
+}
+
+/* Responsive drawer width */
+@media (max-width: 768px) {
+    .nav-drawer {
+        width: 350px;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-drawer {
+        width: 100%;
+        right: -100%;
+    }
+
+    .nav-drawer-btn {
+        top: 15px;
+        right: 15px;
+        width: 45px;
+        height: 45px;
+    }
+}
+
 /* Ensure content is above 3D background */
 .hero {
     position: relative;
