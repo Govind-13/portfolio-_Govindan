@@ -3,11 +3,8 @@ import { FaArrowDown } from 'react-icons/fa';
 
 const Hero = () => {
     return (
-        <section id="hero" className="hero">
-            <div className="hero-bg">
-                <img src="/assets/hero-bg.png" alt="Futuristic Background" />
-                <div className="overlay"></div>
-            </div>
+        <section id="hero" className="hero hero-3d">
+            <div className="hero-overlay-gradient"></div>
             <div className="container hero-content">
                 <span className="tagline">Graphic Design • AI/ML Tools • Visual Communication</span>
                 <h1>Designing the Future with <span className="gradient-text">Art & AI</span></h1>

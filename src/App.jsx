@@ -9,6 +9,7 @@ import Methodology from './components/Methodology';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Cursor from './components/Cursor';
+import ThreeBackground from './components/ThreeBackground';
 
 function App() {
   useEffect(() => {
@@ -48,6 +49,7 @@ function App() {
 
   return (
     <>
+      <ThreeBackground />
       <Cursor />
       <Header />
       <main>
