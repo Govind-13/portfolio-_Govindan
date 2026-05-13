@@ -415,7 +415,7 @@ export default function App() {
               <span className="opacity-40">·</span>
               <a
                 className="hover:text-tertiary transition-colors"
-                href="https://www.linkedin.com/in/govindan-ramu"
+                href="https://www.linkedin.com/in/govindan1993"
                 target="_blank"
                 rel="noreferrer"
               >
