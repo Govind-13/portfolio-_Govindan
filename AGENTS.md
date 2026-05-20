@@ -20,12 +20,20 @@
   - `npm run dev:full`
 
 ## Key files and conventions
-- `src/App.jsx` contains most page content and section data.
+- `src/App.jsx` contains the main portfolio landing page and section data.
+- `src/admin/` contains the admin dashboard with login, projects manager, and contact message manager.
 - `src/data.js` contains the five cinematic background image URLs.
 - `src/components/CinematicBackground.jsx`, `src/components/Reveal.jsx`, and `src/hooks/useScrollProgress.js` implement the page animation and reveal logic.
 - `tailwind.config.js` is the canonical design token source for the Obsidian Gallery theme.
 - `src/index.css` holds base styling and custom utility classes used across the page.
 - `public/profile-headshot.png` is the main static asset for the page.
+
+## Admin Dashboard
+- **Login**: `/admin/login` — admin authentication
+- **Dashboard**: `/admin/dashboard` — protected routes require JWT token
+- **Features**: Manage projects, view & organize contact messages
+- **Design**: Uses the same Obsidian Gallery theme as the main portfolio
+- **API**: Connects to backend admin endpoints for full CRUD operations on projects and contact messages
 
 ## Backend structure
 - `server/index.js` starts the Express app.
