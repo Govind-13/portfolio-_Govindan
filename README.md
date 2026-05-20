@@ -41,12 +41,34 @@ The page tells a five-beat story:
 
 ## 3. How to run it
 
+### Development (Local)
+
 ```bash
-cd gr-studio-landing
-npm install            # only the first time
+# Frontend only
+npm install
 npm run dev            # local dev server with HMR at http://localhost:5173/
+
+# Backend only (requires MongoDB)
+cd server
+npm install
+npm run dev            # starts at http://localhost:5000
+
+# Full stack (both running together)
+npm run dev:full       # concurrently runs frontend + backend
+```
+
+### Production Build
+
+```bash
 npm run build          # production build into dist/
 npm run preview        # preview the production build
+```
+
+### Backend Testing
+```bash
+# Health check
+curl http://localhost:5000/api/health
+# → {"message":"Server is running"}
 ```
 
 There is **no test runner, linter, or formatter** configured — keep it that way unless you have a real
@@ -54,35 +76,111 @@ reason to add one.
 
 ---
 
-## 4. Project layout
+## 4. Backend Setup
+
+This project includes a **separate Node.js + Express backend** for admin authentication, project management, and contact form handling.
+
+### Backend Tech Stack
+- **Node.js + Express** — REST API server
+- **MongoDB + Mongoose** — Database
+- **JWT** — Authentication for admin panel
+- **CORS** — Cross-origin resource sharing for frontend
+
+### Backend Structure
+```
+server/
+├── index.js                    # Express app entry point
+├── package.json                # Backend dependencies
+├── .env.example                # Environment variables template
+├── Procfile                    # Railway deployment config
+├── railway.json                # Railway build settings
+├── DEPLOYMENT.md               # Deployment guide
+├── config/
+│   └── db.js                   # MongoDB connection
+├── controllers/
+│   ├── authController.js       # Login/register logic
+│   ├── projectController.js    # Project CRUD
+│   └── contactController.js    # Contact form handling
+├── middleware/
+│   └── auth.js                 # JWT verification
+├── models/
+│   ├── User.js                 # Admin user schema
+│   ├── Project.js              # Project schema
+│   └── Contact.js              # Contact message schema
+└── routes/
+    ├── auth.js                 # /api/auth endpoints
+    ├── projects.js             # /api/projects endpoints
+    └── contact.js              # /api/contact endpoints
+```
+
+### Backend Environment Variables
+Create `server/.env` (copy from `server/.env.example`):
+```env
+# Database
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/portfolio
+
+# Authentication
+JWT_SECRET=your_secure_random_key_here
+
+# Server
+PORT=5000
+NODE_ENV=development
+
+# Frontend
+FRONTEND_URL=http://localhost:5173
+
+# Optional: Email configuration
+EMAIL_USER=your_email@gmail.com
+EMAIL_PASSWORD=your_app_password
+```
+
+---
+
+## 5. Project layout (Frontend)
 
 ```
-gr-studio-landing/
+portfolio-_Govindan/
 ├── index.html                       # Loads Google Fonts + Material Symbols, mounts <App />
-├── package.json                     # Dev/build scripts and deps
+├── package.json                     # Frontend dev/build scripts
+├── .env.example                     # Frontend env vars template
+├── .gitignore                       # Excludes node_modules, .env, dist
 ├── tailwind.config.js               # Obsidian Gallery design tokens (canonical)
 ├── postcss.config.js
 ├── vite.config.js
 ├── public/
 │   └── profile-headshot.png         # Static asset served from /
-└── src/
-    ├── main.jsx                     # ReactDOM mount point
-    ├── App.jsx                      # The entire page (all sections inline)
-    ├── data.js                      # Cinematic image URLs (used as backgrounds)
-    ├── index.css                    # Base styles, glass-border, neon-glow, scroll-line
-    ├── components/
-    │   ├── CinematicBackground.jsx  # The cross-fading bg layer
-    │   ├── PillNav.jsx              # Floating glass pill nav (top, fixed)
-    │   ├── Reveal.jsx               # Fade-up wrapper driven by IntersectionObserver
-    │   └── Icon.jsx                 # Material Symbols Outlined wrapper
-    └── hooks/
-        ├── useScrollProgress.js     # rAF-throttled 0..1 scroll progress
-        └── useInView.js             # Generic intersection-observer hook
+├── src/
+│   ├── main.jsx                     # ReactDOM mount point
+│   ├── App.jsx                      # The entire landing page (all sections inline)
+│   ├── data.js                      # Cinematic image URLs (backgrounds)
+│   ├── index.css                    # Base styles, glass-border, neon-glow, scroll-line
+│   ├── admin/
+│   │   ├── AdminLogin.jsx           # Admin login page (/admin/login)
+│   │   ├── AdminDashboard.jsx       # Protected dashboard (/admin/dashboard)
+│   │   ├── ProjectsManager.jsx      # CRUD projects
+│   │   └── ContactManager.jsx       # View & manage contact messages
+│   ├── components/
+│   │   ├── CinematicBackground.jsx  # Fixed cross-fading background layer
+│   │   ├── PillNav.jsx              # Floating glass pill nav (top, fixed)
+│   │   ├── ProtectedRoute.jsx       # Requires JWT token for admin routes
+│   │   ├── Reveal.jsx               # Fade-up wrapper (IntersectionObserver)
+│   │   ├── Icon.jsx                 # Material Symbols Outlined wrapper
+│   │   └── ExampleComponents.jsx    # Example card components
+│   ├── hooks/
+│   │   ├── useScrollProgress.js     # rAF-throttled 0..1 scroll progress
+│   │   ├── useInView.js             # Generic intersection-observer hook
+│   │   └── useAuth.js               # Admin authentication state
+│   ├── lib/
+│   │   └── api.js                   # Axios instance with JWT interceptor
+│   └── services/
+│       └── api.js                   # API call utilities
+├── server/                          # Backend (see Backend Structure above)
+└── dist/                            # Production build output (generated)
 ```
 
 ---
 
-## 5. How the animation works
+## 6. How the animation works
 
 ### 5.1 Cinematic cross-fade background
 
@@ -154,7 +252,7 @@ A 2px cyan bar fixed at `top: 0` whose `width` style is bound to the same `progr
 
 ---
 
-## 6. How to customise content
+## 6. Customising content
 
 All copy lives in **`src/App.jsx`** at the top of the file as plain JS constants:
 
@@ -173,7 +271,90 @@ them with local imports) to swap the five shots.
 
 ---
 
-## 7. Real portfolio content (current)
+## 7. Deployment
+
+### Frontend Deployment (Vercel)
+
+1. **Push to GitHub** (already done)
+   ```bash
+   git add .
+   git commit -m "Update deployment config"
+   git push
+   ```
+
+2. **Deploy on Vercel**
+   - Go to https://vercel.com
+   - Import your GitHub repo: `Govind-13/portfolio-_Govindan`
+   - Vercel auto-detects Vite + React
+   - **Build Command**: `npm run build` ✅ (auto-filled)
+   - **Output Directory**: `dist` ✅ (auto-filled)
+   - Click "Deploy"
+
+3. **Add Environment Variables** (if using backend)
+   - In Vercel Dashboard → Settings → Environment Variables
+   - Add: `VITE_API_URL=https://your-backend.railway.app/api`
+   - Redeploy
+
+4. **Get your frontend URL**
+   - e.g., `https://portfolio-govindan.vercel.app`
+
+### Backend Deployment (Railway)
+
+**Important:** The backend is now deployable separately from the frontend.
+
+1. **Prepare MongoDB** (free tier available)
+   - Go to https://www.mongodb.com/cloud/atlas
+   - Create a free cluster
+   - Copy your connection string: `mongodb+srv://username:password@cluster.mongodb.net/portfolio`
+   - Create database: `portfolio`
+   - Create collection: `users`, `projects`, `contacts`
+
+2. **Deploy on Railway**
+   - Go to https://railway.app/dashboard
+   - Click "New Project" → "Deploy from GitHub repo"
+   - Select `Govind-13/portfolio-_Govindan`
+   - Railway auto-detects the backend in `/server` (uses Nixpacks)
+   - Click "Deploy"
+
+3. **Configure Environment Variables on Railway**
+   - In Railway Dashboard, go to "Variables" tab
+   - Add each from `server/.env.example`:
+   ```
+   MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/portfolio
+   JWT_SECRET=generate_a_strong_random_string_here_at_least_32_chars
+   NODE_ENV=production
+   PORT=leave_blank_or_5000 (Railway auto-assigns)
+   FRONTEND_URL=https://portfolio-govindan.vercel.app
+   EMAIL_USER=your_email@gmail.com (optional)
+   EMAIL_PASSWORD=your_app_password (optional)
+   ```
+   - Save variables and redeploy
+
+4. **Get your backend URL**
+   - e.g., `https://portfolio-backend.up.railway.app`
+
+5. **Test the API**
+   ```bash
+   curl https://portfolio-backend.up.railway.app/api/health
+   # → {"message":"Server is running"}
+   ```
+
+6. **Connect Frontend to Backend**
+   - In Vercel, update env var:
+     ```
+     VITE_API_URL=https://portfolio-backend.up.railway.app/api
+     ```
+   - Redeploy frontend
+
+### Admin Dashboard
+After backend is live:
+- **Login**: `https://portfolio-govindan.vercel.app/admin/login`
+- **Dashboard**: `https://portfolio-govindan.vercel.app/admin/dashboard` (protected)
+- Default admin can be created via backend (see `server/DEPLOYMENT.md`)
+
+---
+
+## 8. Real portfolio content (current)
 
 This is what the page actually says today, sourced from Govindan R's résumé:
 
@@ -215,7 +396,7 @@ Plus three credential panels:
 
 ---
 
-## 8. Design system (Obsidian Gallery)
+## 9. Design system (Obsidian Gallery)
 
 The Tailwind theme in `tailwind.config.js` is the canonical implementation of the Obsidian Gallery
 design tokens shared with the static HTML mockups one directory up.
@@ -242,7 +423,7 @@ Fonts:
 
 ---
 
-## 9. Build process summary (how this was made)
+## 10. Build process summary (how this was made)
 
 1. **Reference analysis** — Extracted 16 evenly spaced frames from the Aura screen-recording
    reference (`Screen Recording 2026-05-08 142948.mp4`) using `imageio` to map the animation flow:
@@ -274,7 +455,7 @@ Fonts:
 
 ---
 
-## 10. License
+## 11. License
 
 Portfolio content © 2026 Govindan R. The animation scaffold is fine to reuse for personal portfolio
 work — credit appreciated.
